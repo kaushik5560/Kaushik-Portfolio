@@ -5,8 +5,8 @@ export const personalInfo = {
   location: "Bhopal, MP | Bihar, India",
   email: "kaushikkumarpandey4@gmail.com",
   phone: "+91-6205512156",
-  github: "https://github.com",
-  linkedin: "https://linkedin.com",
+  github: "https://github.com/kaushik5560",
+  linkedin: "https://www.linkedin.com/in/kaushik-pandey26",
   about: "I am a passionate Computer Science Engineering student at IES College of Technology, Bhopal. With hands-on experience in full-stack web development (React.js, Node.js, Express, MongoDB) and AI/ML applications in healthcare from my research internship at IEEE EMBS, I love solving real-world challenges through clean code and modern architectures.",
   stats: [
     { label: "B.Tech CGPA", value: "7.5" },
@@ -83,7 +83,7 @@ export const projectsData = [
       "Designed robust MongoDB schemas with Mongoose, ensuring data sanitization, duplicate checks, and structured error responses."
     ],
     tech: ["React 19", "Node.js", "Express.js", "MongoDB", "JWT", "Bcrypt", "React Router v7"],
-    github: "https://github.com",
+    github: "https://github.com/kaushik5560",
     live: "#",
     featured: true
   },
@@ -99,7 +99,7 @@ export const projectsData = [
       "Designed a modern and mobile-friendly user interface using CSS Grid, Flexbox, and dynamic JavaScript DOM manipulation.",
     ],
     tech: ["HTML5", "CSS3", "JavaScript", "LocalStorage API", "Flexbox/Grid"],
-    github: "https://github.com",
+    github: "https://github.com/kaushik5560",
     live: "#",
     featured: true
   },
@@ -115,7 +115,7 @@ export const projectsData = [
       "Collaborated with multidisciplinary team members to develop project solutions and research outcomes."
     ],
     tech: ["Python", "AI/ML", "React.js", "Biomedical Modules"],
-    github: "https://github.com",
+    github: "https://github.com/kaushik5560",
     live: "#",
     featured: true
   },
@@ -131,7 +131,7 @@ export const projectsData = [
       "Built resilient error handling for invalid city queries, network timeouts, and added keyboard Enter shortcuts."
     ],
     tech: ["JavaScript (ES6+)", "OpenWeatherMap API", "Fetch API", "CSS3", "DOM Manipulation"],
-    github: "https://github.com",
+    github: "https://github.com/kaushik5560",
     live: "#",
     featured: false
   },
@@ -147,7 +147,7 @@ export const projectsData = [
       "Designed clean, responsive UI with interactive hover effects and instant visual green/red feedback."
     ],
     tech: ["JavaScript", "DOM Manipulation", "CSS3 Flexbox", "State Logic"],
-    github: "https://github.com",
+    github: "https://github.com/kaushik5560",
     live: "#",
     featured: false
   }
