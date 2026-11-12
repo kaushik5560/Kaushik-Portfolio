@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaushik Kumar Pandey | Portfolio Preview</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React 18 & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- PORTFOLIO DATA ---
+    const personalInfo = {
+      name: "Kaushik Kumar Pandey",
+      title: "Full-Stack Developer & CS Undergrad",
+      tagline: "Building high-performance, user-centric web applications and exploring AI/ML solutions in healthcare.",
+      location: "Bhopal, MP | Bihar, India",
+      email: "kaushikkumarpandey4@gmail.com",
+      phone: "+91-6205512156",
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      about: "I am a passionate Computer Science Engineering student at IES College of Technology, Bhopal. With hands-on experience in full-stack web development (React.js, Node.js, Express, MongoDB) and AI/ML applications in healthcare from my research internship at IEEE EMBS, I love solving real-world challenges through clean code and modern architectures.",
+      stats: [
+        { label: "B.Tech CGPA", value: "7.5" },
+        { label: "Core Skills", value: "15+" },
+        { label: "Internship", value: "IEEE EMBS" },
+        { label: "Certifications", value: "3+" },
+      ]
+    };
+
+    const skillsData = {
+      languages: [
+        { name: "Java", level: "Elite (NPTEL)" },
+        { name: "JavaScript (ES6+)", level: "Advanced" },
+        { name: "C", level: "Proficient" },
+        { name: "SQL", level: "Proficient" },
+      ],
+      frontend: [
+        { name: "React.js", level: "Core Expertise" },
+        { name: "Next.js", level: "Intermediate" },
+        { name: "HTML5 & CSS3", level: "Advanced" },
+        { name: "Tailwind CSS", level: "Modern Styling" },
+        { name: "Bootstrap", level: "Proficient" },
+      ],
+      backend: [
+        { name: "Node.js", level: "Backend Runtime" },
+        { name: "Express.js", level: "REST APIs" },
+        { name: "MongoDB", level: "NoSQL DB" },
+        { name: "MySQL / SQL", level: "Relational DB" },
+      ],
+      tools: [
+        { name: "Git & GitHub", level: "Version Control" },
+        { name: "VS Code", level: "Primary IDE" },
+        { name: "IntelliJ IDEA Ultimate", level: "Java Development" },
+        { name: "GDB Compiler", level: "Debugging" },
+      ],
+      coursework: [
+        "Data Structures & Algorithms",
+        "Database Management Systems (DBMS)",
+        "Object-Oriented Programming (OOPS)",
+        "Operating Systems",
+        "Software Engineering",
+        "Web Development"
+      ]
+    };
+
+    const experienceData = [
+      {
+        role: "Student Intern",
+        organization: "IEEE EMBS Pune Chapter",
+        location: "Pune, India (Hybrid)",
+        period: "Jun 2025 – Jul 2025",
+        type: "Research & Healthcare AI Internship",
+        description: "Worked on cognitive rehabilitation systems for mental health disorders using biomedical engineering and AI/ML concepts.",
+        achievements: [
+          "Contributed to AI/ML-based learning modules in biomedical engineering and healthcare innovation.",
+          "Collaborated with multidisciplinary team members to develop project solutions and research outcomes.",
+          "Gained hands-on experience in artificial intelligence applications for healthcare and neuro-rehabilitation.",
+        ],
+        techStack: ["Python", "AI/ML", "Healthcare Analytics", "Biomedical Modules"]
+      }
+    ];
+
+    const projectsData = [
+      {
+        id: "mern-auth-system",
+        title: "Full-Stack MERN Authentication System",
+        category: "Full-Stack Web App",
+        date: "Oct 2026",
+        description: "A production-ready, secure user authentication and authorization platform featuring encrypted credentials, JWT session management, and protected routes.",
+        points: [
+          "Engineered secure registration & login workflows utilizing Bcrypt password hashing (10 salt rounds) and JSON Web Tokens (JWT).",
+          "Created custom Express authentication middleware to protect sensitive API endpoints and user profile retrieval.",
+          "Developed a clean, modern frontend with React 19 and React Router v7 featuring Protected Route guards and stateful sessions.",
+          "Designed robust MongoDB schemas with Mongoose, ensuring data sanitization, duplicate checks, and structured error responses."
+        ],
+        tech: ["React 19", "Node.js", "Express.js", "MongoDB", "JWT", "Bcrypt", "React Router v7"],
+        github: "https://github.com",
+        live: "#"
+      },
+      {
+        id: "smart-task-manager",
+        title: "Smart Task Manager",
+        category: "Web Application",
+        date: "May 2026",
+        description: "A responsive, feature-packed productivity web application designed to organize, prioritize, and track daily tasks seamlessly.",
+        points: [
+          "Implemented task creation, deletion, completion tracking, due date management, and status-based filtering.",
+          "Integrated real-time search functionality and Local Storage API to persist task data across browser sessions.",
+          "Designed a modern and mobile-friendly user interface using CSS Grid, Flexbox, and dynamic JavaScript DOM manipulation.",
+        ],
+        tech: ["HTML5", "CSS3", "JavaScript", "LocalStorage API", "Flexbox/Grid"],
+        github: "https://github.com",
+        live: "#"
+      },
+      {
+        id: "cognitive-rehab-ai",
+        title: "Cognitive Rehabilitation Platform",
+        category: "AI & Healthcare",
+        date: "Jul 2025",
+        description: "Interactive health intelligence module for mental health tracking and neuro-rehabilitation developed in association with IEEE EMBS.",
+        points: [
+          "Designed cognitive exercises and test modules to assist in cognitive mental health tracking.",
+          "Synthesized data points for healthcare innovation metrics and biomedical research insights.",
+          "Collaborated with multidisciplinary team members to develop project solutions and research outcomes."
+        ],
+        tech: ["Python", "AI/ML", "React.js", "Biomedical Modules"],
+        github: "https://github.com",
+        live: "#"
+      },
+      {
+        id: "realtime-weather-app",
+        title: "Real-Time Weather Application",
+        category: "JavaScript Builds",
+        date: "Apr 2026",
+        description: "An API-driven live weather application featuring asynchronous data fetching, dynamic climate condition styling, and graceful error recovery.",
+        points: [
+          "Integrated OpenWeatherMap REST API with asynchronous JavaScript (Fetch API & Async/Await) to stream live temperature, humidity, and wind velocity.",
+          "Engineered dynamic UI icon matching for diverse weather conditions (Clouds, Rain, Clear, Mist, Drizzle, Snow).",
+          "Built resilient error handling for invalid city queries, network timeouts, and added keyboard Enter shortcuts."
+        ],
+        tech: ["JavaScript (ES6+)", "OpenWeatherMap API", "Fetch API", "CSS3", "DOM Manipulation"],
+        github: "https://github.com",
+        live: "#"
+      },
+      {
+        id: "interactive-quiz-app",
+        title: "Interactive Knowledge Quiz App",
+        category: "JavaScript Builds",
+        date: "Apr 2026",
+        description: "A gamified quiz web application featuring real-time answer verification, progress tracking, dynamic DOM rendering, and performance feedback.",
+        points: [
+          "Architected dynamic question-rendering logic with dataset-driven answer validation and single-choice lockouts.",
+          "Implemented score computation, percentage metrics, and personalized congratulatory feedback cards.",
+          "Designed clean, responsive UI with interactive hover effects and instant visual green/red feedback."
+        ],
+        tech: ["JavaScript", "DOM Manipulation", "CSS3 Flexbox", "State Logic"],
+        github: "https://github.com",
+        live: "#"
+      }
+    ];
+
+    const educationData = [
+      {
+        degree: "B.Tech In Computer Science & Engineering",
+        institution: "IES College Of Technology",
+        location: "Bhopal, MP",
+        period: "2023 – 2027",
+        score: "CGPA: 7.5",
+        highlights: "Core focus on DSA, OOPS, Full-Stack Development, and Operating Systems."
+      },
+      {
+        degree: "Higher Secondary (12th - Intermediate)",
+        institution: "Intermediate Council",
+        location: "West Champaran, Bihar",
+        period: "2021 – 2023",
+        score: "Percentage: 73.6%",
+        highlights: "Science stream with strong foundations in Mathematics and Physics."
+      },
+      {
+        degree: "Secondary School (10th - Matriculation)",
+        institution: "Matriculation Board",
+        location: "East Champaran, Bihar",
+        period: "2019 – 2020",
+        score: "Percentage: 67.2%",
+        highlights: "Foundational education with emphasis on Science, Mathematics, and Computer Basics."
+      }
+    ];
+
+    const certificationsData = [
+      {
+        title: "Programming in Java",
+        issuer: "NPTEL",
+        badge: "Elite - 80%",
+        description: "Rigorous coursework and examination covering core Java, OOPs, Collections, Multithreading, and Exception Handling."
+      },
+      {
+        title: "GEN-AI Camp",
+        issuer: "AlgoUniversity",
+        badge: "Generative AI & Multimodal",
+        description: "Comprehensive training in Generative AI, Large Language Models (LLMs), Multimodal AI Systems, and NLP workflows."
+      },
+      {
+        title: "ADCA (Advance Diploma in Computer Applications)",
+        issuer: "ICCT",
+        badge: "A+ Grade (79.6%)",
+        description: "Advanced computing foundations covering software applications, data management, and operational computing."
+      }
+    ];
+
+    const extracurricularData = [
+      {
+        title: "IEEE-IES Student Branch Quiz Competition",
+        role: "Team Leader",
+        organization: "IES University, Bhopal (2025)",
+        description: "Led a team in a competitive technical quiz competition organized by IEEE-IES Student Branch, demonstrating team leadership, rapid problem-solving, and technical expertise."
+      },
+      {
+        title: "BGI Hackathon 2026 – Vision 2047",
+        role: "Participant & Innovator",
+        organization: "Bhopal, Madhya Pradesh (May 2026)",
+        description: "Participated in a high-intensity national-level hackathon focused on innovation and problem-solving, collaborating with team members to deliver technology-driven solutions."
+      }
+    ];
+
+    // --- APP COMPONENT ---
+    function App() {
+      const [darkMode, setDarkMode] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const [projectFilter, setProjectFilter] = useState('All');
+      const [activeSkillTab, setActiveSkillTab] = useState('all');
+      const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
+      const [formSent, setFormSent] = useState(false);
+      const [copied, setCopied] = useState(false);
+
+      useEffect(() => {
+        if (darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }, [darkMode]);
+
+      const handleContactSubmit = (e) => {
+        e.preventDefault();
+        setFormSent(true);
+        setTimeout(() => {
+          setFormSent(false);
+          setContactForm({ name: '', email: '', subject: '', message: '' });
+        }, 4000);
+      };
+
+      const copyEmail = () => {
+        navigator.clipboard.writeText(personalInfo.email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      };
+
+      const filteredProjects = projectFilter === 'All'
+        ? projectsData
+        : projectsData.filter(p => p.category === projectFilter);
+
+      return (
+        <div className="min-h-screen flex flex-col">
+          {/* NAVBAR */}
+          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between h-16 sm:h-20">
+                <a href="#" className="flex items-center gap-2 font-bold text-xl sm:text-2xl tracking-tight text-slate-900 dark:text-white">
+                  <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25">
+                    ⚡
+                  </div>
+                  <span>Kaushik<span className="text-blue-600">.dev</span></span>
+                </a>
+
+                <nav className="hidden md:flex items-center gap-2">
+                  <a href="#about" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">About</a>
+                  <a href="#skills" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Skills</a>
+                  <a href="#experience" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Experience</a>
+                  <a href="#projects" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Projects</a>
+                  <a href="#education" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Education</a>
+                  <a href="#achievements" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Honors</a>
+                  <a href="#contact" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">Contact</a>
+                </nav>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
+                    title="Toggle Theme"
+                  >
+                    {darkMode ? '☀️ Light' : '🌙 Dark'}
+                  </button>
+
+                  <a
+                    href="#contact"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/25"
+                  >
+                    Get In Touch
+                  </a>
+
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="md:hidden p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  >
+                    ☰
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Drawer */}
+            {mobileMenuOpen && (
+              <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-4 space-y-2">
+                <a href="#about" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">About</a>
+                <a href="#skills" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Skills</a>
+                <a href="#experience" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Experience</a>
+                <a href="#projects" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Projects</a>
+                <a href="#education" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Education</a>
+                <a href="#achievements" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Honors</a>
+                <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">Contact</a>
+              </div>
+            )}
+          </header>
+
+          <main className="flex-1">
+            {/* HERO SECTION */}
+            <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800/80 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Available for Internships & Full-Time Roles</span>
+                </div>
+
+                <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                  Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400">{personalInfo.name}</span>
+                </h1>
+
+                <p className="mt-4 text-xl sm:text-2xl font-semibold text-slate-700 dark:text-slate-300">
+                  {personalInfo.title}
+                </p>
+
+                <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {personalInfo.tagline}
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+                  <span>📍 {personalInfo.location}</span>
+                  <span>🎓 IES College of Technology (2023 - 2027)</span>
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                  <a
+                    href="#projects"
+                    className="px-6 py-3.5 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/25 transition-transform hover:scale-105"
+                  >
+                    View Projects &rarr;
+                  </a>
+                  <a
+                    href="#contact"
+                    className="px-6 py-3.5 rounded-xl font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 shadow-sm"
+                  >
+                    Contact Me
+                  </a>
+                  <a
+                    href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, '')}`}
+                    className="px-5 py-3.5 rounded-xl font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 shadow-sm"
+                  >
+                    📞 Call
+                  </a>
+                </div>
+
+                {/* Stats Bar */}
+                <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur-md shadow-sm">
+                  {personalInfo.stats.map((stat, idx) => (
+                    <div key={idx} className="flex flex-col items-center p-2 text-center">
+                      <span className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">{stat.value}</span>
+                      <span className="mt-1 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ABOUT SECTION */}
+            <section id="about" className="py-20 bg-slate-100/60 dark:bg-slate-900/40">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    About Me
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Who is Kaushik Kumar Pandey?
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Computer Science Engineer & Builder</h3>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+                      {personalInfo.about}
+                    </p>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+                      I have built projects using modern frontend and backend frameworks, and explored artificial intelligence applied to biomedical research during my internship at IEEE EMBS Pune.
+                    </p>
+                    <div className="pt-2 flex flex-wrap gap-2">
+                      <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-700">📍 Bhopal, MP</span>
+                      <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-700">🎓 B.Tech CSE (2023-2027)</span>
+                      <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-700">⚡ Full-Stack Developer</span>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="text-2xl mb-2">🎓</div>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1">CS Undergrad</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">B.Tech in Computer Science at IES College of Technology, Bhopal (CGPA: 7.5).</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="text-2xl mb-2">💻</div>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1">Full-Stack Development</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">React.js, Node.js, Express, MongoDB, Tailwind CSS, and REST API design.</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="text-2xl mb-2">🧠</div>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1">AI/ML in Healthcare</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">Research internship with IEEE EMBS Pune Chapter on mental health cognitive rehabilitation.</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="text-2xl mb-2">🏆</div>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1">Leadership & Honors</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">Quiz Team Leader at IEEE-IES Student Branch & BGI Hackathon 2026 Participant.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* SKILLS SECTION */}
+            <section id="skills" className="py-20">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-12">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Tech Stack
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Skills & Technologies
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* Languages */}
+                  <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span className="text-amber-500">📜</span> Programming Languages
+                    </h3>
+                    <div className="space-y-2.5">
+                      {skillsData.languages.map((s, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-700/40 text-sm">
+                          <span className="font-medium text-slate-800 dark:text-slate-200">{s.name}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300">{s.level}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Frontend */}
+                  <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span className="text-blue-500">🎨</span> Frontend Technologies
+                    </h3>
+                    <div className="space-y-2.5">
+                      {skillsData.frontend.map((s, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-700/40 text-sm">
+                          <span className="font-medium text-slate-800 dark:text-slate-200">{s.name}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">{s.level}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Backend */}
+                  <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span className="text-emerald-500">⚙️</span> Backend & Databases
+                    </h3>
+                    <div className="space-y-2.5">
+                      {skillsData.backend.map((s, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-700/40 text-sm">
+                          <span className="font-medium text-slate-800 dark:text-slate-200">{s.name}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300">{s.level}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tools */}
+                  <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span className="text-purple-500">🛠️</span> Developer Tools
+                    </h3>
+                    <div className="space-y-2.5">
+                      {skillsData.tools.map((s, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-700/40 text-sm">
+                          <span className="font-medium text-slate-800 dark:text-slate-200">{s.name}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">{s.level}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* CS Fundamentals */}
+                  <div className="md:col-span-2 p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-blue-950 text-white shadow-md">
+                    <h3 className="text-lg font-bold mb-2 flex items-center gap-2">
+                      <span>📚</span> Core Computer Science Coursework
+                    </h3>
+                    <p className="text-slate-300 text-xs sm:text-sm mb-4">
+                      Academic foundation from university curriculum supporting scalable design:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {skillsData.coursework.map((course, idx) => (
+                        <span key={idx} className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 border border-white/10 text-blue-100">
+                          ✓ {course}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* EXPERIENCE SECTION */}
+            <section id="experience" className="py-20 bg-slate-100/60 dark:bg-slate-900/40">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Internship
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Practical Research Experience
+                  </h2>
+                </div>
+
+                <div className="max-w-4xl mx-auto space-y-6">
+                  {experienceData.map((exp, idx) => (
+                    <div key={idx} className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-700">
+                        <div>
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
+                            {exp.type}
+                          </span>
+                          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">{exp.role}</h3>
+                          <p className="text-base font-semibold text-blue-600 dark:text-blue-400">{exp.organization}</p>
+                        </div>
+                        <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 sm:text-right">
+                          <p>📅 {exp.period}</p>
+                          <p>📍 {exp.location}</p>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 space-y-2">
+                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                          <strong className="text-blue-600">Focus:</strong> {exp.description}
+                        </p>
+                        <ul className="space-y-2 pt-2">
+                          {exp.achievements.map((item, i) => (
+                            <li key={i} className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex items-start gap-2">
+                              <span className="text-emerald-500 font-bold">✓</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-2">
+                        {exp.techStack.map((tech, i) => (
+                          <span key={i} className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* PROJECTS SECTION */}
+            <section id="projects" className="py-20">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-10">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Portfolio Projects
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Featured Applications
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {projectsData.map((project) => (
+                    <div key={project.id} className="flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all">
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
+                            {project.category}
+                          </span>
+                          <span className="text-xs text-slate-400">📅 {project.date}</span>
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{project.title}</h3>
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{project.description}</p>
+                        
+                        <ul className="mt-4 space-y-1.5 border-t border-slate-100 dark:border-slate-700 pt-3">
+                          {project.points.map((pt, i) => (
+                            <li key={i} className="text-xs text-slate-500 dark:text-slate-400 flex items-start gap-1.5">
+                              <span className="text-blue-500">•</span>
+                              <span>{pt}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {project.tech.map((t, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <a href={project.github} target="_blank" className="flex-1 py-2 text-center rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-800 dark:text-slate-200">
+                            Source Code
+                          </a>
+                          <a href={project.live} className="flex-1 py-2 text-center rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white">
+                            Live Demo
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* EDUCATION SECTION */}
+            <section id="education" className="py-20 bg-slate-100/60 dark:bg-slate-900/40">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Academic Background
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Education Journey
+                  </h2>
+                </div>
+
+                <div className="max-w-3xl mx-auto border-l-2 border-blue-500/30 pl-6 space-y-8">
+                  {educationData.map((edu, idx) => (
+                    <div key={idx} className="relative p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <div className="absolute -left-[31px] top-6 w-3.5 h-3.5 rounded-full bg-blue-600 ring-4 ring-white dark:ring-slate-900" />
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 w-fit">
+                          {edu.score}
+                        </span>
+                        <span className="text-xs text-slate-500">{edu.period} • {edu.location}</span>
+                      </div>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{edu.degree}</h3>
+                      <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{edu.institution}</p>
+                      <p className="text-xs text-slate-500 mt-1">{edu.highlights}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ACHIEVEMENTS & CERTIFICATIONS */}
+            <section id="achievements" className="py-20">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Credentials
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Certifications & Leadership
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Certifications */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
+                      <span>🎖️</span> Certifications
+                    </h3>
+                    {certificationsData.map((c, i) => (
+                      <div key={i} className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <div>
+                            <h4 className="font-bold text-slate-900 dark:text-white text-base">{c.title}</h4>
+                            <p className="text-xs font-semibold text-blue-600">{c.issuer}</p>
+                          </div>
+                          <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300">
+                            {c.badge}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2">{c.description}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Extracurricular */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
+                      <span>🏆</span> Hackathons & Leadership
+                    </h3>
+                    {extracurricularData.map((e, i) => (
+                      <div key={i} className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <div>
+                            <h4 className="font-bold text-slate-900 dark:text-white text-base">{e.title}</h4>
+                            <p className="text-xs font-semibold text-purple-600">{e.organization}</p>
+                          </div>
+                          <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">
+                            {e.role}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2">{e.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* CONTACT SECTION */}
+            <section id="contact" className="py-20 bg-slate-100/60 dark:bg-slate-900/40">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                    Contact
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                    Let's Connect & Collaborate
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto">
+                  <div className="lg:col-span-5 space-y-4">
+                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <p className="text-xs font-semibold text-slate-400 uppercase">Email Me</p>
+                      <p className="text-base font-bold text-slate-900 dark:text-white mt-1 break-all">{personalInfo.email}</p>
+                      <button onClick={copyEmail} className="mt-3 text-xs text-blue-600 font-semibold underline">
+                        {copied ? '✓ Copied to Clipboard!' : 'Copy Email Address'}
+                      </button>
+                    </div>
+
+                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <p className="text-xs font-semibold text-slate-400 uppercase">Phone & WhatsApp</p>
+                      <p className="text-base font-bold text-slate-900 dark:text-white mt-1">{personalInfo.phone}</p>
+                      <a href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, '')}`} className="mt-3 inline-block text-xs text-emerald-600 font-semibold underline">
+                        Call directly
+                      </a>
+                    </div>
+
+                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <p className="text-xs font-semibold text-slate-400 uppercase">Location</p>
+                      <p className="text-base font-bold text-slate-900 dark:text-white mt-1">{personalInfo.location}</p>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7">
+                    <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Send a Message</h3>
+                      {formSent ? (
+                        <div className="p-6 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 text-center text-emerald-800 dark:text-emerald-200">
+                          <p className="font-bold">✓ Message Received!</p>
+                          <p className="text-xs mt-1">Thank you, Kaushik will connect with you soon.</p>
+                        </div>
+                      ) : (
+                        <form onSubmit={handleContactSubmit} className="space-y-4">
+                          <div>
+                            <label className="block text-xs font-semibold mb-1">Your Name</label>
+                            <input
+                              type="text"
+                              required
+                              value={contactForm.name}
+                              onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                              placeholder="Your full name"
+                              className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold mb-1">Your Email</label>
+                            <input
+                              type="email"
+                              required
+                              value={contactForm.email}
+                              onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                              placeholder="name@company.com"
+                              className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold mb-1">Message</label>
+                            <textarea
+                              required
+                              rows={4}
+                              value={contactForm.message}
+                              onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                              placeholder="Hi Kaushik, I would like to discuss..."
+                              className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                            />
+                          </div>
+                          <button
+                            type="submit"
+                            className="w-full py-3 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/25"
+                          >
+                            Send Message
+                          </button>
+                        </form>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+
+          {/* FOOTER */}
+          <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-8 text-center text-xs text-slate-500">
+            <p className="font-semibold text-slate-800 dark:text-slate-200 text-sm mb-1">Kaushik Kumar Pandey</p>
+            <p>© {new Date().getFullYear()} All Rights Reserved. Built with React & Tailwind CSS.</p>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
